@@ -3,7 +3,7 @@
  *
  * Created at: 2011-12-01 08:32:01 +0200
  * Author: Yves Van Broekhoven
- * Version: 1.0.4
+ * Version: 1.1.4
  *
  * How to use:
  * 
