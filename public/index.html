@@ -6,13 +6,52 @@
 
   <title>jquery-image-loader demo</title>
 
+  <style>
+    .images img {
+      display: inline-block;
+      width: 400px;
+    }
+  </style>
+
   <script src="http://www.google.com/jsapi?key="></script>
-  <script type="text/javascript">
+  <script>
     google.load("jquery", "1");
   </script>
   <script src="jquery-image-loader-min.js"></script>
+  <script>
+    $(function() {
+
+      $('.images, .load-async, .invalid-images').loadImages({
+        imgLoadedClb: function(){ console.log("[image loaded]", $(this).data('src') ); },
+        allLoadedClb: function(){ console.log("[all images loaded]", $(this).attr('class') ); },
+        imgErrorClb:  function(){ console.log("[image error]", $(this).data('src') ); },
+        noImgClb:     function(){ console.log("[no valid images found]", $(this).attr('class') ); }
+      });
+
+    });
+  </script>
 </head>
 <body>
+  <h1>jQuery image loader</h1>
+
+  <h2>Examples</h2>
+
+  <h3>Load all images in div</h3>
+  <div class="images">
+    <img data-src="http://wallpapers.leovacity.be/images/Kittens_play.jpg" alt="" />
+    <img data-src="http://2.bp.blogspot.com/-6kfGV3myQh0/Trz-w0hM-II/AAAAAAAAabk/leFAuTSKqNM/s1600/cats+and+kittens1.jpg" alt="" />
+    <img data-src="http://www.dierenkliniekkorteakkeren.nl/Portals/0/images/OPQED00Z.jpg" alt="" />
+    <img data-src="this-is-an-invalid-image-url" alt="" />
+  </div>
+
+  <h3>Load one image</h3>
+  <img data-src="http://wallpapers.leovacity.be/images/Kittens_play.jpg" class="load-async" alt="" />
+
+  <h3>Load all invalid images</h3>
+  <div class="invalid-images">
+    <img data-src="this-is-an-invalid-image-url" alt="" />
+    <img data-src="this-is-an-invalid-image-url" alt="" />
+  </div>
 
 </body>
 </html>
