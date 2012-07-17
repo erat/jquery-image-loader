@@ -6,16 +6,16 @@
  * Version: 1.1.4
  *
  * How to use:
- * 
+ *
  * HTML:
- * 
+ *
  * <div class="wrapper">
  *   <img data-src="url-to-image.jpg">
  * </div>
- * 
- * 
+ *
+ *
  * JS:
- * 
+ *
  * $('.wrapper').loadImages({
  *   imgLoadedClb: function(){},
  *   allLoadedClb: function(){},
@@ -25,7 +25,10 @@
  *
  */
 
-(function() {
+/*global jQuery:false*/
+
+(function($) {
+  "use strict";
 
   var _load,
       _callback,
@@ -33,7 +36,7 @@
 
   $.fn.loadImages = function(options){
     options = options ? $.extend({}, $.fn.loadImages.defaults, options) : $.fn.loadImages.defaults;
-    
+
     this.each(function(){
       var _this = this,
           $this = $(_this),
@@ -59,10 +62,10 @@
       $this.data( 'options', options );
 
       // Initialize counters
-      $this.data('total_images_count', $images.length)
+      $this.data('total_images_count', $images.length);
       $this.data('processed_count', 0);
       $this.data('failed_count', 0);
-      
+
       // Async
       $.when( _load.call(_this, $images) )
        .then( function() {
@@ -70,9 +73,9 @@
             options.allLoadedClb.call(_this);
           }
        });
-      
+
     });
-    
+
     return this;
   };
 
@@ -85,11 +88,11 @@
     var _this = this,
         $this = $(_this),
         dfd   = $this.data('dfd');
-    
+
     // Iterate images
     $images.each(function(){
       var $img = $(this);
-      
+
       $img
         .load(function(){
           _callback.call(_this, $img[0], 'success');
@@ -98,9 +101,9 @@
           _callback.call(_this, $img[0], 'error');
         })
         .attr('src', $img.data('src'));
-      
+
     });
-    
+
     return dfd.promise();
   };
 
@@ -122,20 +125,20 @@
 
     // Increase process count
     $this.data('processed_count', processed_count);
-        
+
     // Image success callback
     if ( status === 'success' && $.isFunction(options.imgLoadedClb) ) {
       options.imgLoadedClb.call(img, processed_count, total_images_count);
     }
-    
+
     // Image error callback
     if (status === 'error') {
       $this.data('failed_count', $this.data('failed_count') + 1);
-      
-      // Unbind load event to avoid triggering our load function again 
+
+      // Unbind load event to avoid triggering our load function again
       // when you for example add a fallback image
       $(this).unbind('load');
-        
+
       if ( $.isFunction(options.imgErrorClb) ) {
         options.imgErrorClb.call(img, processed_count, total_images_count);
       }
@@ -157,9 +160,9 @@
 
       }
       _removeData.call(_this);
-      
+
     }
-    
+
   };
 
   /*
@@ -175,18 +178,18 @@
    * Plugin defaults
    */
   $.fn.loadImages.defaults = {
-    imgLoadedClb: false, /* callback when an image is loaded. 
+    imgLoadedClb: false, /* callback when an image is loaded.
                             this [object] loaded image
                             @params processed [integer] processed images
                             @params total  [integer] total images
                          */
-    allLoadedClb: false, /* callback when all images are loaded. 
-                            this [object] wrapper element 
+    allLoadedClb: false, /* callback when all images are loaded.
+                            this [object] wrapper element
                          */
     imgErrorClb: false,  /* callback when an image fails loading.
                             this [object] failed image
                          */
-    noImgClb: false      /* callback when there are no images to be loaded, 
+    noImgClb: false      /* callback when there are no images to be loaded,
                             or all are failed.
                             this [object] wrapper element
                          */
