@@ -7,9 +7,54 @@
   <title>jquery-image-loader demo</title>
 
   <style>
-    .images img {
-      display: inline-block;
-      width: 400px;
+    html,
+    body {
+      padding: 0;
+      margin: 0;
+    }
+    body {
+      background-color: #eeeeee;
+      font-family: sans-serif;
+    }
+    #wrapper {
+      margin: 0 auto;
+      padding: 20px;
+      max-width: 600px;
+      background-color: #ffffff;
+    }
+    .example-block {
+      margin-bottom: 50px;
+    }
+    p {
+      font-family: Monaco, "Lucida Console", monospace;
+      line-height: 1.5em;
+      margin: 2em 0;
+    }
+    a {
+      color: #0000EE !important;
+    }
+    a:hover {
+      text-decoration: none;
+    }
+    nav ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      font-family: Monaco, "Lucida Console", monospace;
+      overflow: hidden;
+    }
+    nav li {
+      float: left;
+      width: 50%;
+    }
+    pre {
+      border: 1px solid #cccccc;
+      padding: 10px;
+      background-color: #efefef;
+    }
+    footer {
+      text-align: center;
+      font-size: 11px;
     }
   </style>
 
@@ -32,7 +77,65 @@
   </script>
 </head>
 <body>
-  <h1>jQuery image loader</h1>
+
+  <div id="wrapper">
+    <h1>jQuery image loader</h1>
+    <p>Load images asynchronously with ease. This plugin seeks for all images with <em>data-src</em> attributes inside a wrapper or run the plugin on an image tag itself.
+    </p>
+    <p>The <em>data-src</em> attribute will be copied to the <em>src</em> attribute, which gives you enough feedback to get a good grip on the situation.</p>
+    <h2>Callbacks</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>callback</th>
+          <th>description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>imgLoadedClb</td>
+          <td>Triggered when an image is loaded. ('this' is the loaded image)</td>
+        </tr>
+        <tr>
+          <td>allLoadedClb</td>
+          <td>Triggered when all images are loaded. ('this' is the wrapper in which all images are loaded, or the image if you ran it on one image)</td>
+        </tr>
+        <tr>
+          <td>imgErrorClb</td>
+          <td>Triggered when the image gives an error. Useful when you want to add a placeholder instead or remove it. ('this' is the loaded image)</td>
+        </tr>
+        <tr>
+          <td>noImgClb</td>
+          <td>Triggered when there are no image found with data-src attributes, or when all images give an error. ('this' is the wrapper in which all images are loaded, or the image if you ran it on one image)</td>
+        </tr>
+      </tbody>
+    </table>
+    <h2>How to use?</h2>
+    <h3>HTML</h3>
+    <pre>
+&lt;div class=&quot;images&quot;&gt;
+  &lt;img data-src=&quot;link-to-image.jpg&quot; alt=&quot;&quot;&gt;
+  &lt;img data-src=&quot;link-to-image.jpg&quot; alt=&quot;&quot;&gt;
+  &lt;img data-src=&quot;link-to-image.jpg&quot; alt=&quot;&quot;&gt;
+&lt;/div&gt;</pre>
+    <h3>Javascript to load images inside wrapper</h3>
+    <pre>
+$('.images').loadImages({
+  imgLoadedClb: function(){},
+  allLoadedClb: function(){},
+  imgErrorClb:  function(){},
+  noImgClb:     function(){}
+});</pre>
+    <h3>Javascript to load one image</h3>
+    <pre>
+$('.images img').first().loadImages({
+  imgLoadedClb: function(){},
+  allLoadedClb: function(){},
+  imgErrorClb:  function(){},
+  noImgClb:     function(){}
+});
+    </pre>
+  </div>
 
   <h2>Examples</h2>
 
