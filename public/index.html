@@ -2,59 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="description" content="">
+  <meta name="description" content="" />
 
   <title>jquery-image-loader demo</title>
 
-  <style>
-    html,
-    body {
-      padding: 0;
-      margin: 0;
-    }
-    body {
-      background-color: #eeeeee;
-      font-family: sans-serif;
-    }
-    #wrapper {
-      margin: 0 auto;
-      padding: 20px;
-      max-width: 600px;
-      background-color: #ffffff;
-    }
-    .example-block {
-      margin-bottom: 50px;
-    }
-    p {
-      font-family: Monaco, "Lucida Console", monospace;
-      line-height: 1.5em;
-      margin: 2em 0;
-    }
-    a {
-      color: #0000EE !important;
-    }
-    a:hover {
-      text-decoration: none;
-    }
-    nav ul {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      font-family: Monaco, "Lucida Console", monospace;
-      overflow: hidden;
-    }
-    nav li {
-      float: left;
-      width: 50%;
-    }
-    pre {
-      border: 1px solid #cccccc;
-      padding: 10px;
-      background-color: #efefef;
-    }
-    footer {
-      text-align: center;
-      font-size: 11px;
+  <link rel="stylesheet" href="demo.css" />
+  <style type="text/css" media="screen">
+    .images img {
+      display: inline-block;
+      margin: 0 2.5% 2.5% 0;
+      width: 20%;
     }
   </style>
 
@@ -63,18 +20,6 @@
     google.load("jquery", "1");
   </script>
   <script src="jquery-image-loader-min.js"></script>
-  <script>
-    $(function() {
-
-      $('.images, .load-async, .invalid-images').loadImages({
-        imgLoadedClb: function(){ console.log("[image loaded]", $(this).data('src') ); },
-        allLoadedClb: function(){ console.log("[all images loaded]", $(this).attr('class') ); },
-        imgErrorClb:  function(){ console.log("[image error]", $(this).data('src') ); },
-        noImgClb:     function(){ console.log("[no valid images found]", $(this).attr('class') ); }
-      });
-
-    });
-  </script>
 </head>
 <body>
 
@@ -93,19 +38,19 @@
       </thead>
       <tbody>
         <tr>
-          <td>imgLoadedClb</td>
+          <td><em>imgLoadedClb</em></td>
           <td>Triggered when an image is loaded. ('this' is the loaded image)</td>
         </tr>
         <tr>
-          <td>allLoadedClb</td>
+          <td><em>allLoadedClb</em></td>
           <td>Triggered when all images are loaded. ('this' is the wrapper in which all images are loaded, or the image if you ran it on one image)</td>
         </tr>
         <tr>
-          <td>imgErrorClb</td>
+          <td><em>imgErrorClb</em></td>
           <td>Triggered when the image gives an error. Useful when you want to add a placeholder instead or remove it. ('this' is the loaded image)</td>
         </tr>
         <tr>
-          <td>noImgClb</td>
+          <td><em>noImgClb</em></td>
           <td>Triggered when there are no image found with data-src attributes, or when all images give an error. ('this' is the wrapper in which all images are loaded, or the image if you ran it on one image)</td>
         </tr>
       </tbody>
@@ -135,16 +80,36 @@ $('.images img').first().loadImages({
   noImgClb:     function(){}
 });
     </pre>
-  </div>
 
-  <h2>Examples</h2>
+    <h2>Examples</h2>
+    <h3>Load all images in div</h3>
+    <div class="images">
+      <img data-src="http://farm8.staticflickr.com/7067/7038298347_0481d2a7e3_o.jpg" alt="" />
+      <img data-src="http://farm8.staticflickr.com/7199/7038298927_bfc3993208_b.jpg" alt="" />
+      <img data-src="this-is-an-invalid-image-url" alt="" />
+      <img data-src="http://farm8.staticflickr.com/7094/7038299687_2a558b9349_b.jpg" alt="" />
+    </div>
+    <div id="console-example-1" class="console"></div>
+    <script>
+      $(function() {
+        var $console = $('#console-example-1');
+        $('.images').loadImages({
+          imgLoadedClb: function(){
+            $console.append( $('<div></div>').text("[image loaded] " + $(this).data('src')) );
+          },
+          allLoadedClb: function(){
+            $console.append( $('<div></div>').text("[all images loaded] " + $(this).attr('class')) );
+          },
+          imgErrorClb:  function(){
+            $console.append( $('<div class="error"></div>').text("[image error] " + $(this).data('src')) );
+          },
+          noImgClb:     function(){
+            $console.append( $('<div class="error"></div>').text("[no valid images found] " + $(this).attr('class')) );
+          }
+        });
 
-  <h3>Load all images in div</h3>
-  <div class="images">
-    <img data-src="http://wallpapers.leovacity.be/images/Kittens_play.jpg" alt="" />
-    <img data-src="http://2.bp.blogspot.com/-6kfGV3myQh0/Trz-w0hM-II/AAAAAAAAabk/leFAuTSKqNM/s1600/cats+and+kittens1.jpg" alt="" />
-    <img data-src="http://www.dierenkliniekkorteakkeren.nl/Portals/0/images/OPQED00Z.jpg" alt="" />
-    <img data-src="this-is-an-invalid-image-url" alt="" />
+      });
+    </script>
   </div>
 
   <h3>Load one image</h3>
