@@ -45,8 +45,9 @@ pre {
   background-color: #efefef;
 }
 footer {
-  text-align: center;
   font-size: 11px;
+  padding: 20px;
+  text-align: center;
 }
 
 table {
