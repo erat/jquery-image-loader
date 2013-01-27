@@ -25,6 +25,13 @@ class Jplugin < Thor
           "#{label}: #{parts.join('.')}"
         end
 
+        gsub_file( 'image-loader.jquery.json', /version[:].+$/) do |match|
+          label, version = *match.split(':', 2)
+          parts = version.strip.split('.')
+          parts[2] = parts[2].to_i + 1
+          "#{label}: #{parts.join('.')}"
+        end
+
         run( "thor jplugin:compile")
         run( "git add .; git commit -m '#{label}: #{parts.join('.')}';" )
         run( "git tag -a v#{parts.join('.')} -m '#{label}: #{parts.join('.')}'")
