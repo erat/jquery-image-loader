@@ -25,6 +25,7 @@ class Jplugin < Thor
           "#{label}: #{parts.join('.')}"
         end
 
+        run( "thor jplugin:compile")
         run( "git add .; git commit -m '#{label}: #{parts.join('.')}';" )
         run( "git tag -a v#{parts.join('.')} -m '#{label}: #{parts.join('.')}'")
 
@@ -50,6 +51,7 @@ class Jplugin < Thor
           "#{label}: #{parts.join('.')}"
         end
 
+        run( "thor jplugin:compile")
         run( "git add .; git commit -m '#{label}: #{parts.join('.')}';" )
         run( "git tag -a v#{parts.join('.')} -m '#{label}: #{parts.join('.')}'")
 
@@ -75,6 +77,7 @@ class Jplugin < Thor
           "#{label}: #{parts.join('.')}"
         end
 
+        run( "thor jplugin:compile")
         run( "git add .; git commit -m '#{label}: #{parts.join('.')}';" )
         run( "git tag -a v#{parts.join('.')} -m '#{label}: #{parts.join('.')}'")
 
