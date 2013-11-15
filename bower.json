@@ -1,7 +1,7 @@
 {
   "name": "jquery-image-loader",
   "main": "jquery-image-loader.js",
-  "version": "1.2.0",
+  "version": "1.2.2",
   "homepage": "https://github.com/mrhenry/jquery-image-loader",
   "authors": [
     "Yves Van Broekhoven <yvesvanbroekhoven@gmail.com>"
