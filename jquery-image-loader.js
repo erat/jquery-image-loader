@@ -3,7 +3,7 @@
  *
  * Created at: 2011-12-01 08:32:01 +0200
  * Author: Yves Van Broekhoven
- * Version: 1.2.0
+ * Version: 1.2.1
  * https://github.com/mrhenry/jquery-image-loader
  *
  * How to use:
@@ -45,7 +45,7 @@
           $images;
 
       // Check if "this" is an image or an image container
-      if ( $this.is('img') ) {
+      if ( $this.is('*[data-' + options.dataAttr + ']') ) {
         $images = $this;
       } else {
         $images = $this.find('*[data-' + options.dataAttr + ']');
