@@ -18,6 +18,15 @@
       margin: 0 2.5% 2.5% 0;
       width: 20%;
     }
+
+    .images-example-2 div {
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: contain;
+      display: inline-block;
+      padding-top: 20%;
+      width: 20%;
+    }
   </style>
 
   <script src="http://www.google.com/jsapi?key="></script>
@@ -46,7 +55,7 @@
     <h1>jQuery image loader</h1>
     <p>Load images asynchronously with ease. This plugin seeks for all images with <em>data-src</em> attributes inside a wrapper or run the plugin on an image tag itself.
     </p>
-    <p>The <em>data-src</em> attribute will be copied to the <em>src</em> attribute, which gives you enough feedback to get a good grip on the situation.</p>
+    <p>The <em>data</em> attribute will be copied to the <em>src</em> attribute, which gives you loading & error events to streamline your flow.</p>
     <h2>Callbacks</h2>
     <table>
       <thead>
@@ -72,6 +81,10 @@
           <td><em>noImgClb</em></td>
           <td>Triggered when there are no image found with data-src attributes, or when all images give an error. ('this' is the wrapper in which all images are loaded, or the image if you ran it on one image)</td>
         </tr>
+        <tr>
+          <td><em>dataAttr</em></td>
+          <td>The data attribute that contains the source. Default 'src'.</td>
+        </tr>
       </tbody>
     </table>
     <h2>How to use?</h2>
@@ -88,7 +101,8 @@ $('.images').loadImages({
   imgLoadedClb: function(){},
   allLoadedClb: function(){},
   imgErrorClb:  function(){},
-  noImgClb:     function(){}
+  noImgClb:     function(){},
+  dataAttr:     'src'
 });</pre>
     <h3>Javascript to load one image</h3>
     <pre>
@@ -96,7 +110,8 @@ $('.images img').first().loadImages({
   imgLoadedClb: function(){},
   allLoadedClb: function(){},
   imgErrorClb:  function(){},
-  noImgClb:     function(){}
+  noImgClb:     function(){},
+  dataAttr:     'src'
 });
     </pre>
     <br />
@@ -124,6 +139,49 @@ $('.images img').first().loadImages({
           }
 
           $('.images').loadImages({
+            imgLoadedClb: function(){
+              $console.append( $('<div></div>').text("[image loaded] " + $(this).data('src')) );
+            },
+            allLoadedClb: function(){
+              $console.append( $('<div></div>').text("[all images loaded] " + $(this).attr('class')) );
+            },
+            imgErrorClb:  function(){
+              $console.append( $('<div class="error"></div>').text("[image error] " + $(this).data('src')) );
+            },
+            noImgClb:     function(){
+              $console.append( $('<div class="error"></div>').text("[no valid images found] " + $(this).attr('class')) );
+            }
+          });
+
+        });
+
+      });
+    </script>
+
+
+    <h3>Load background images</h3>
+    <p><a href="#" class="start-example-2">Do it!</a></p>
+    <div class="images-example-2">
+      <div data-src="http://farm8.staticflickr.com/7067/7038298347_0481d2a7e3_o.jpg" alt=""></div>
+      <div data-src="http://farm8.staticflickr.com/7199/7038298927_bfc3993208_b.jpg" alt=""></div>
+      <div data-src="this-is-an-invalid-image-url" alt=""></div>
+      <div data-src="http://farm8.staticflickr.com/7094/7038299687_2a558b9349_b.jpg" alt=""></div>
+    </div>
+    <div id="console-example-2" class="console"></div>
+    <script>
+      $(function() {
+        var $console = $('#console-example-2');
+
+        $('.start-example-2').on('click', function(event){
+          event.preventDefault();
+
+          if ( $(this).hasClass('clicked') ) {
+            return;
+          } else {
+            $(this).addClass('clicked');
+          }
+
+          $('.images-example-2').loadImages({
             imgLoadedClb: function(){
               $console.append( $('<div></div>').text("[image loaded] " + $(this).data('src')) );
             },

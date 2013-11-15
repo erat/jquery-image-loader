@@ -1,9 +1,10 @@
-/*
+/** @preserve
  * jquery-image-loader
  *
  * Created at: 2011-12-01 08:32:01 +0200
  * Author: Yves Van Broekhoven
- * Version: 1.1.5
+ * Version: 1.2.0
+ * https://github.com/mrhenry/jquery-image-loader
  *
  * How to use:
  *
@@ -20,7 +21,8 @@
  *   imgLoadedClb: function(){},
  *   allLoadedClb: function(){},
  *   imgErrorClb:  function(){},
- *   noImgClb:     function(){}
+ *   noImgClb:     function(){},
+ *   dataAttr:     'src'
  * });
  *
  */
@@ -35,7 +37,7 @@
       _removeData;
 
   $.fn.loadImages = function(options){
-    options = options ? $.extend({}, $.fn.loadImages.defaults, options) : $.fn.loadImages.defaults;
+    options = $.extend({}, $.fn.loadImages.defaults, options);
 
     this.each(function(){
       var _this = this,
@@ -43,10 +45,10 @@
           $images;
 
       // Check if "this" is an image or an image container
-      if ( $this.is('img[data-src]') ) {
+      if ( $this.is('img') ) {
         $images = $this;
       } else {
-        $images = $this.find('img[data-src]');
+        $images = $this.find('*[data-' + options.dataAttr + ']');
       }
 
       // If there are no images, exit immediately
@@ -85,23 +87,37 @@
    * @param $images [$object] $array of <img>
    */
   _load = function($images) {
-    var _this = this,
-        $this = $(_this),
-        dfd   = $this.data('dfd');
+    var _this   = this,
+        $this   = $(_this),
+        options = $this.data('options'),
+        dfd     = $this.data('dfd');
 
     // Iterate images
     $images.each(function(){
-      var $img = $(this);
+      var $this = $(this),
+          $img;
+
+      if ( $this.is('img') ) {
+        $img = $this;
+
+      } else {
+        $img = $('<img/>');
+
+      }
 
       $img
         .load(function(){
-          _callback.call(_this, $img[0], 'success');
+          if ( !$this.is('img') ) {
+            $this.css({
+              'background-image': 'url("' + $this.data(options.dataAttr) + '")'
+            });
+          }
+          _callback.call(_this, $this[0], 'success');
         })
-        .error(function(errorObj){
-          _callback.call(_this, $img[0], 'error');
+        .error(function(){
+          _callback.call(_this, $this[0], 'error');
         })
-        .attr('src', $img.data('src'));
-
+        .attr( 'src', $this.data(options.dataAttr) );
     });
 
     return dfd.promise();
@@ -189,10 +205,12 @@
     imgErrorClb: false,  /* callback when an image fails loading.
                             this [object] failed image
                          */
-    noImgClb: false      /* callback when there are no images to be loaded,
+    noImgClb: false,     /* callback when there are no images to be loaded,
                             or all are failed.
                             this [object] wrapper element
                          */
+    dataAttr: 'src'       /* the data attribute that contains the src */
+
   };
 
 }(jQuery));

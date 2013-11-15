@@ -10,6 +10,7 @@ The data-src attribute will be copied to the src attribute, which gives you enou
 * allLoadedClb - Triggered when all images are loaded. ('this' is the wrapper in which all images are loaded, or the image if you ran it on one image)
 * imgErrorClb - Triggered when the image gives an error. Useful when you want to add a placeholder instead or remove it. ('this' is the loaded image)
 * noImgClb - Triggered when there are no image found with data-src attributes, or when all images give an error. ('this' is the wrapper in which all images are loaded, or the image if you ran it on one image)
+* dataAttr - The data attribute that contains the source. (Default: 'src')
 
 ## How to use?
 
@@ -30,7 +31,8 @@ $('.images').loadImages({
   imgLoadedClb: function(){},
   allLoadedClb: function(){},
   imgErrorClb:  function(){},
-  noImgClb:     function(){}
+  noImgClb:     function(){},
+  dataAttr:     'src'
 });
 ```
 
@@ -41,7 +43,8 @@ $('.images img').first().loadImages({
   imgLoadedClb: function(){},
   allLoadedClb: function(){},
   imgErrorClb:  function(){},
-  noImgClb:     function(){}
+  noImgClb:     function(){},
+  dataAttr:     'src'
 });
 ```
 
