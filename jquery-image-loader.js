@@ -45,10 +45,10 @@
           $images;
 
       // Check if "this" is an image or an image container
-      if ( $this.is('img[data-' + options.dataAttr + ']') ) {
+      if ( $this.is('img') ) {
         $images = $this;
       } else {
-        $images = $this.find('img[data-' + options.dataAttr + ']');
+        $images = $this.find('*[data-' + options.dataAttr + ']');
       }
 
       // If there are no images, exit immediately
@@ -94,16 +94,30 @@
 
     // Iterate images
     $images.each(function(){
-      var $img = $(this);
+      var $this = $(this),
+          $img;
+
+      if ( $this.is('img') ) {
+        $img = $this;
+
+      } else {
+        $img = $('<img/>');
+
+      }
 
       $img
         .load(function(){
-          _callback.call(_this, $img[0], 'success');
+          if ( !$this.is('img') ) {
+            $this.css({
+              'background-image': 'url("' + $this.data(options.dataAttr) + '")'
+            });
+          }
+          _callback.call(_this, $this[0], 'success');
         })
         .error(function(){
-          _callback.call(_this, $img[0], 'error');
+          _callback.call(_this, $this[0], 'error');
         })
-        .attr( 'src', $img.data(options.dataAttr) );
+        .attr( 'src', $this.data(options.dataAttr) );
     });
 
     return dfd.promise();
