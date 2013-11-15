@@ -1,0 +1,28 @@
+{
+  "name": "jquery-image-loader",
+  "main": "jquery-image-loader.js",
+  "version": "1.2.0",
+  "homepage": "https://github.com/mrhenry/jquery-image-loader",
+  "authors": [
+    "Yves Van Broekhoven <yvesvanbroekhoven@gmail.com>"
+  ],
+  "description": "Load images asynchronously with ease.",
+  "keywords": [
+    "jQuery",
+    "image",
+    "load",
+    "asynchronous"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "Thorfile"
+  ],
+  "dependencies": {
+    "jquery": "1.10.2"
+  }
+}
