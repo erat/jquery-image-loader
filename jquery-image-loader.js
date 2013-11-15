@@ -3,7 +3,7 @@
  *
  * Created at: 2011-12-01 08:32:01 +0200
  * Author: Yves Van Broekhoven
- * Version: 1.2.0
+ * Version: 1.2.1
  * https://github.com/mrhenry/jquery-image-loader
  *
  * How to use:
