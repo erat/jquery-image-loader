@@ -28,6 +28,13 @@ class Jplugin < Thor
           "#{label}: #{parts.join('.')}\","
         end
 
+        gsub_file( 'bower.json', /"version"[:].+$/) do |match|
+          label, version = *match.split(':', 2)
+          parts = version.strip.split('.')
+          parts[2] = parts[2].to_i + 1
+          "#{label}: #{parts.join('.')}\","
+        end
+
         gsub_file( 'jquery-image-loader.js', /Version[:].+$/) do |match|
           label, version = *match.split(':', 2)
           parts = version.strip.split('.')
@@ -55,6 +62,14 @@ class Jplugin < Thor
         parts   = nil
 
         gsub_file( 'image-loader.jquery.json', /"version"[:].+$/) do |match|
+          label, version = *match.split(':', 2)
+          parts = version.strip.split('.')
+          parts[1] = parts[1].to_i + 1
+          parts[2] = 0
+          "#{label}: #{parts.join('.')}\","
+        end
+
+        gsub_file( 'bower.json', /"version"[:].+$/) do |match|
           label, version = *match.split(':', 2)
           parts = version.strip.split('.')
           parts[1] = parts[1].to_i + 1
@@ -90,6 +105,15 @@ class Jplugin < Thor
         parts   = nil
 
         gsub_file( 'image-loader.jquery.json', /"version"[:].+$/) do |match|
+          label, version = *match.split(':', 2)
+          parts = version.strip.split('.')
+          parts[0] = parts[0].gsub(/\"/,'').to_i + 1
+          parts[1] = 0
+          parts[2] = 0
+          "#{label}: \"#{parts.join('.')}\","
+        end
+
+        gsub_file( 'bower.json', /"version"[:].+$/) do |match|
           label, version = *match.split(':', 2)
           parts = version.strip.split('.')
           parts[0] = parts[0].gsub(/\"/,'').to_i + 1
